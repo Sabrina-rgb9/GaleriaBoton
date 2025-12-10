@@ -29,6 +29,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Abrir galeria" />
+
+        <Button
+            android:id="@+id/thumbButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thumb"
+            android:layout_marginTop="16dp" />
+
     </LinearLayout>
 
 

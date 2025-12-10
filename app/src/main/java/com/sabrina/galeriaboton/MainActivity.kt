@@ -1,5 +1,5 @@
 package com.sabrina.galeriaboton
-
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -10,9 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
-    private lateinit var button: Button
+    private lateinit var btnGaleria: Button
+    private lateinit var btnFoto: Button
 
-    // Launcher per obrir la galeria
+    // 1) Obrir la galeria → retorna una URI
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -21,16 +22,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 2) Fer foto thumbnail → retorna un BITMAP
+    private val takePicturePreviewLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: Bitmap? ->
+        bitmap?.let {
+            imageView.setImageBitmap(it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         imageView = findViewById(R.id.imageView)
-        button = findViewById(R.id.button)
+        btnGaleria = findViewById(R.id.button)
+        btnFoto = findViewById(R.id.thumbButton)
 
-        button.setOnClickListener {
-            // Obrim la galeria filtrant per imatges
+        // Obrir galeria
+        btnGaleria.setOnClickListener {
             pickImageLauncher.launch("image/*")
+        }
+
+        // Fer una foto
+        btnFoto.setOnClickListener {
+            takePicturePreviewLauncher.launch(null)
         }
     }
 }
